@@ -14,8 +14,8 @@ The structure of the project currently includes:
 
 ## Preview
 
-![App preview](/animation.gif)
-![App preview2](/animation2.gif)
+![App preview](https://github.com/alexbrillant/react-native-deck-swiper/blob/master/animation.gif)
+![App preview2](https://github.com/alexbrillant/react-native-deck-swiper/blob/master/animation2.gif)
 
 ## Props
 
