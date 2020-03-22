@@ -2,142 +2,266 @@
 
 [![CircleCI](https://circleci.com/gh/infinitered/ignite-bowser.svg?style=svg)](https://circleci.com/gh/infinitered/ignite-bowser)
 
-## The latest and greatest boilerplate for Infinite Red opinions
+## This is a Tinder like swiper made with [React Native Deck Swiper](https://github.com/alexbrillant/react-native-deck-swiper)
 
-This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way to test bleeding-edge changes to our React Native stack.
+The structure of the project currently includes:
 
-Currently includes:
-
-- React Native
+- React Native (0.61.5)
 - React Navigation
 - MobX State Tree
 - TypeScript
-- And more!
+- React Native Deck Swiper
 
-## Quick Start
+## Preview
 
-The Ignite Bowser boilerplate project's structure will look similar to this:
+![App preview](/animation.gif)
+![App preview2](/animation2.gif)
 
+## Props
+
+### Card props
+
+| Props           | type           | description                                                          | required | default |
+| :-------------- | :------------- | :------------------------------------------------------------------- | :------- | :------ |
+| cards           | array          | array of data for the cards to be rendered                           | required |
+| renderCard      | func(cardData, cardIndex) | function to render the card based on the data                        | required |
+| keyExtractor    | func(cardData) | function to get the card's react key                                 |          | null    |
+| cardIndex       | number         | cardIndex to start with                                              |          | 0       |
+| infinite        | bool           | keep swiping indefinitely                                            |          | false   |
+| horizontalSwipe | bool           | enable/disable horizontal swiping                                    |          | true    |
+| verticalSwipe   | bool           | enable/disable vertical swiping                                      |          | true    |
+| showSecondCard  | bool           | enable/disable second card while swiping                             |          | true    |
+| stackSize       | number         | number of underlaying cards to show (showSecondCard must be enabled) |          | 0       |
+
+### Event callbacks
+
+| Props             | type   | description                                                                           | default |
+| :---------------- | :----- | :------------------------------------------------------------------------------------ | :------ |
+| onSwipedAll       | func   | function to be called when all cards have been swiped                                 |         | () => {} |
+| onSwiped          | func   | function to be called when a card is swiped. it receives the swiped card index        |         | (cardIndex) => {} |
+| onSwipedAborted   | func   | function to be called when a card is released before reaching the threshold           |         | () => {} |
+| onSwipedLeft      | func   | function to be called when a card is swiped left. it receives the swiped card index   |         | (cardIndex) => {} |
+| onSwipedRight     | func   | function to be called when a card is swiped right. it receives the swiped card index  |         | (cardIndex) => {} |
+| onSwipedTop       | func   | function to be called when a card is swiped top. it receives the swiped card index    |         | (cardIndex) => {} |
+| onSwipedBottom    | func   | function to be called when a card is swiped bottom. it receives the swiped card index |         | (cardIndex) => {} |
+| onSwiping         | func   | function to be called when a card is being moved. it receives X and Y positions       |         | (x, y) => {} |
+| dragStart         | func   | function to be called when drag start                                       |        |
+| dragEnd           | func   | function to be called when drag end
+| onTapCard         | func   | function to be called when tapping a card. it receives the tapped card index          |         | (cardIndex) => {} |
+| onTapCardDeadZone | number | maximum amount of movement before a tap is no longer recognized as a tap              | 5       |
+
+### Swipe animation props
+
+| Props                  | type   | description                     | default    |
+| :--------------------- | :----- | :------------------------------ | :--------- |
+| verticalThreshold      | number | vertical swipe threshold        | height / 5 |
+| horizontalThreshold    | number | horizontal swipe threshold      | width / 4  |
+| swipeAnimationDuration | number | duration of the swipe animation | 350        |
+| disableBottomSwipe     | bool   | disable bottom swipe            | false      |
+| disableLeftSwipe       | bool   | disable left swipe              | false      |
+| disableRightSwipe      | bool   | disable right swipe             | false      |
+| disableTopSwipe        | bool   | disable top swipe               | false      |
+
+### Stack props
+
+| Props                  | type   | description                                            | default |
+| :--------------------- | :----- | :----------------------------------------------------- | :------ |
+| stackSeparation        | number | vertical separation between underlaying cards          | 10      |
+| stackScale             | number | percentage to reduce the size of each underlaying card | 3       |
+| stackAnimationFriction | number | spring animation friction (bounciness)                 | 7       |
+| stackAnimationTension  | number | spring animation tension (speed)                       | 40      |
+
+### Rotation animation props
+
+| Props               | type  | description                                            | default                     |
+| :------------------ | :---- | :----------------------------------------------------- | :-------------------------- |
+| inputRotationRange  | array | x values range for the rotation output                 | [-width / 2, 0, width / 2]  |
+| outputRotationRange | array | rotation values for the x values in inputRotationRange | ["-10deg", "0deg", "10deg"] |
+
+### Opacity animation props
+
+| Props                             | type   | description                                                      | default                                               |
+| :-------------------------------- | :----- | :--------------------------------------------------------------- | :---------------------------------------------------- |
+| animateCardOpacity                | bool   | animate card opacity                                             | false                                                 |
+| inputCardOpacityRangeX            | array  | pan x card opacity input range                                   | [-width / 2, -width / 3, 0, width / 3, width / 2]     |
+| outputCardOpacityRangeX           | array  | opacity values for the values in inputCardOpacityRangeX          | [0.8, 1, 1, 1, 0.8]                                   |
+| inputCardOpacityRangeY            | array  | pan y card opacity input range                                   | [-height / 2, -height / 3, 0, height / 3, height / 2] |
+| outputCardOpacityRangeY           | array  | opacity values for the values in inputCardOpacityRangeY          | [0.8, 1, 1, 1, 0.8]                                   |
+| animateOverlayLabelsOpacity       | bool   | animate card overlay labels opacity                              | false                                                 |
+| inputOverlayLabelsOpacityRangeX   | array  | pan x overlay labels opacity input range                         | [-width / 3, -width / 4, 0, width / 4, width / 3]     |
+| outputOverlayLabelsOpacityRangeX  | array  | opacity values for the values in inputOverlayLabelsOpacityRangeX | [1, 0, 0, 0, 1]                                       |
+| inputOverlayLabelsOpacityRangeY   | array  | pan x overlay labels opacity input range                         | [-height / 4, -height / 5, 0, height / 5, height / 4] |
+| outputOverlayLabelsOpacityRangeY  | array  | opacity values for the values in inputOverlayLabelsOpacityRangeY | [1, 0, 0, 0, 1]                                       |
+| overlayOpacityVerticalThreshold   | number | vertical threshold for overlay label                             | height / 5                                            |
+| overlayOpacityHorizontalThreshold | number | horizontal threshold for overlay label                           | width / 4                                             |
+
+2 steps of inputOverlayLabelsOpacityRangeX and inputOverlayLabelsOpacityRangeY should match horizontalThreshold and verticalThreshold, respectively.
+
+### Swipe overlay labels
+
+| Props                    | type   | description                  | default                    |
+| :----------------------- | :----- | :--------------------------- | :------------------------- |
+| overlayLabels            | object | swipe labels title and style | null, see below for format |
+| overlayLabelStyle        | object | swipe labels style           | null, see below for format |
+| overlayLabelWrapperStyle | object | overlay label wrapper style  | see below for default      |
+
+### overlayLabelStyle
+
+```javascript
+{
+  fontSize: 45,
+  fontWeight: 'bold',
+  borderRadius: 10,
+  padding: 10,
+  overflow: 'hidden'
+}
 ```
-ignite-project
-├── app
-│   ├── components
-│   ├── i18n
-│   ├── utils
-│   ├── models
-│   ├── navigation
-│   ├── screens
-│   ├── services
-│   ├── theme
-│   ├── app.tsx
-├── storybook
-│   ├── views
-│   ├── index.ts
-│   ├── storybook-registry.ts
-│   ├── storybook.ts
-├── test
-│   ├── __snapshots__
-│   ├── storyshots.test.ts.snap
-│   ├── mock-i18n.ts
-│   ├── mock-reactotron.ts
-│   ├── setup.ts
-│   ├── storyshots.test.ts
-├── README.md
-├── android
-│   ├── app
-│   ├── build.gradle
-│   ├── gradle
-│   ├── gradle.properties
-│   ├── gradlew
-│   ├── gradlew.bat
-│   ├── keystores
-│   └── settings.gradle
-├── ignite
-│   ├── ignite.json
-│   └── plugins
-├── index.js
-├── ios
-│   ├── IgniteProject
-│   ├── IgniteProject-tvOS
-│   ├── IgniteProject-tvOSTests
-│   ├── IgniteProject.xcodeproj
-│   └── IgniteProjectTests
-├── .env
-└── package.json
 
+### overlayLabelWrapperStyle default props:
+
+```javascript
+{
+  position: 'absolute',
+  backgroundColor: 'transparent',
+  zIndex: 2,
+  flex: 1,
+  width: '100%',
+  height: '100%'
+}
 ```
 
-### ./app directory
+### overlayLabels default props :
 
-Included in an Ignite boilerplate project is the `app` directory. This is a directory you would normally have to create when using vanilla React Native.
-
-The inside of the src directory looks similar to the following:
-
+```javascript
+{
+  bottom: {
+	element: <Text>BLEAH</Text> /* Optional */
+	title: 'BLEAH',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  },
+  left: {
+	element: <Text>NOPE</Text> /* Optional */
+	title: 'NOPE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        marginTop: 30,
+        marginLeft: -30
+      }
+    }
+  },
+  right: {
+	element: <Text>LIKE</Text> /* Optional */
+	title: 'LIKE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        marginTop: 30,
+        marginLeft: 30
+      }
+    }
+  },
+  top: {
+	element: <Text>SUPER</Text> /* Optional */
+	title: 'SUPER LIKE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  }
+}
 ```
-app
-│── components
-│── i18n
-├── models
-├── navigation
-├── screens
-├── services
-├── theme
-├── utils
-└── app.tsx
-```
 
-**components**
-This is where your React components will live. Each component will have a directory containing the `.tsx` file, along with a story file, and optionally `.presets`, and `.props` files for larger components. The app will come with some commonly used components like Button.
+### Swipe back to previous card props
 
-**i18n**
-This is where your translations will live if you are using `react-native-i18n`.
+Make sure you set showSecondCard={false} for smoother and proper transitions while going back to previous card.
 
-**models**
-This is where your app's models will live. Each model has a directory which will contain the `mobx-state-tree` model file, test file, and any other supporting files like actions, types, etc.
+| Props                             | type | description                               | default |
+| :-------------------------------- | :--- | :---------------------------------------- | :------ |
+| goBackToPreviousCardOnSwipeLeft   | bool | previous card is rendered on left swipe   | false   |
+| goBackToPreviousCardOnSwipeRight  | bool | previous card is rendered on right swipe  | false   |
+| goBackToPreviousCardOnSwipeTop    | bool | previous card is rendered on top swipe    | false   |
+| goBackToPreviousCardOnSwipeBottom | bool | previous card is rendered on bottom swipe | false   |
 
-**navigation**
-This is where your `react-navigation` navigators will live.
+### Style props
 
-**screens**
-This is where your screen components will live. A screen is a React component which will take up the entire screen and be part of the navigation hierarchy. Each screen will have a directory containing the `.tsx` file, along with any assets or other helper files.
+| Props                | type   | description                                        | default   |
+| :------------------- | :----- | :------------------------------------------------- | :-------- |
+| backgroundColor      | string | background color for the view containing the cards | '#4FD0E9' |
+| marginTop            | number | marginTop for the swiper container                 | 0         |
+| marginBottom         | number | marginBottom for the swiper container              | 0         |
+| cardVerticalMargin   | number | card vertical margin                               | 60        |
+| cardHorizontalMargin | number | card horizontal margin                             | 20        |
+| childrenOnTop        | bool   | render children on top or not                      | false     |
+| cardStyle            | node   | override swipable card style                       | {}        |
+| containerStyle       | node   | overrides for the containing <View> style          | {}        |
+| pointerEvents        | string | pointerEvents prop for the containing <View>       | 'auto'    |
+| useViewOverflow      | bool   | use ViewOverflow instead of View for the Swiper component |  true     |
 
-**services**
-Any services that interface with the outside world will live here (think REST APIs, Push Notifications, etc.).
+### Swipe back method info
+## Method
 
-**theme**
-Here lives the theme for your application, including spacing, colors, and typography.
+| Name                | type   | description                                        |
+| :------------------- | :----- | :------------------------------------------------- |
+| swipeBack       | callback                       | swipe back into deck last swiped card |
 
-**utils**
-This is a great place to put miscellaneous helpers and utilities. Things like date helpers, formatters, etc. are often found here. However, it should only be used for things that are truely shared across your application. If a helper or utility is only used by a specific component or model, consider co-locating your helper with that component or model.
+## Props
 
-**app.tsx** This is the entry point to your app. This is where you will find the main App component which renders the rest of the application. This is also where you will specify whether you want to run the app in storybook mode.
+| Props                | type   | description                                        | default   |
+| :------------------- | :----- | :------------------------------------------------- | :-------- |
+| previousCardDefaultPositionX | number | Animation start position oX when card swipes back into deck | -width |
+| previousCardDefaultPositionY | number | Animation start position oY when card swipes back into deck | -height |
+| stackAnimationFriction | number | spring animation friction (bounciness)                 | 7       |
+| stackAnimationTension  | number | spring animation tension (speed)                       | 40      |
+| stackAnimationTension  | number | spring animation tension (speed)                       | 40      |
+| swipeBackCard  | bool | renders swipe back card, in order to animate it                       | false      |
 
-### ./ignite directory
+### Methods
 
-The `ignite` directory stores all things Ignite, including CLI and boilerplate items. Here you will find generators, plugins and examples to help you get started with React Native.
+To trigger imperative animations, you can use a reference to the Swiper component.
 
-### ./storybook directory
+| Name           | arguments                      | description                   |
+| :-------------- | :----------------------------- | :---------------------------- |
+| swipeLeft       | mustDecrementCardIndex = false | swipe left to the next card   |
+| swipeRight      | mustDecrementCardIndex = false | swipe right to the next card  |
+| swipeTop        | mustDecrementCardIndex = false | swipe top to the next card    |
+| swipeBottom     | mustDecrementCardIndex = false | swipe bottom to the next card |
+| jumpToCardIndex | cardIndex                      | set the current card index    |
 
-This is where your stories will be registered and where the Storybook configs will live
-
-### ./test directory
-
-This directory will hold your Jest configs and mocks, as well as your [storyshots](https://github.com/storybooks/storybook/tree/master/addons/storyshots) test file. This is a file that contains the snapshots of all your component storybooks.
-
-## Running Storybook
-
-From the command line in your generated app's root directory, enter `yarn run storybook`
-This starts up the storybook server.
-
-In `app/app.tsx`, change `SHOW_STORYBOOK` to `true` and reload the app.
-
-For Visual Studio Code users, there is a handy extension that makes it easy to load Storybook use cases into a running emulator via tapping on items in the editor sidebar. Install the `React Native Storybook` extension by `Orta`, hit `cmd + shift + P` and select "Reconnect Storybook to VSCode". Expand the STORYBOOK section in the sidebar to see all use cases for components that have `.story.tsx` files in their directories.
-
-## Previous Boilerplates
-
-- [2017 aka Andross](https://github.com/infinitered/ignite-andross)
-- [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
-
-## Premium Support
-
-[Ignite CLI](https://infinite.red/ignite), [Ignite Andross](https://github.com/infinitered/ignite-andross), and [Ignite Bowser](https://github.com/infinitered/ignite-bowser), as open source projects, are free to use and always will be. [Infinite Red](https://infinite.red/) offers premium Ignite support and general mobile app design/development services. Email us at [hello@infinite.red](mailto:hello@infinite.red) to get in touch with us for more details.
